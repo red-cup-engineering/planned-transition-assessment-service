@@ -1,0 +1,6 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["type", "eligible", "transition", "obstruction", "analysis", "responsePair", "boundary"],
+  "properties": {"type": {"const": "PlannedTransitionObstruction"}, "eligible": {"const": false}, "boundary": {"type": "object", "required": ["observations", "effectAuthorization", "scientificTruth"], "properties": {"effectAuthorization": {"const": "not-assessed"}, "scientificTruth": {"const": "not-assessed"}}}}
+}

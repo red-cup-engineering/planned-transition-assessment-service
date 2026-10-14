@@ -1,0 +1,32 @@
+{
+  "name": "@red-cup-engineering/planned-transition-assessment-service",
+  "version": "0.1.2",
+  "private": true,
+  "type": "module",
+  "description": "Assess finite planned-transition eligibility under supplied observations, placement declarations and game materiality; effect authorization remains with the receiving host.",
+  "license": "Apache-2.0",
+  "bin": {
+    "assess-planned-transition": "./scripts/assess-planned-transition.mjs"
+  },
+  "exports": {
+    ".": "./src/assess-planned-transition.mjs"
+  },
+  "files": [
+    "scripts",
+    "content",
+    "src"
+  ],
+  "scripts": {
+    "check": "node --check src/assess-planned-transition.mjs && node --check scripts/assess-planned-transition.mjs",
+    "test": "node --test test/*.test.mjs",
+    "verify": "npm run check && npm test && npm pack --dry-run"
+  },
+  "dependencies": {
+    "@red-cup-engineering/metrologic": "workspace:*",
+    "@red-cup-engineering/playing": "workspace:*",
+    "@red-cup-engineering/computer-content-address-engineering-services-section": "workspace:*"
+  },
+  "engines": {
+    "node": ">=22"
+  }
+}
