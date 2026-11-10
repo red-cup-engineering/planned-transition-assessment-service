@@ -8,3 +8,10 @@
 <!-- 561-group-standards:badges:end -->
 
 Assess finite planned-transition eligibility under supplied observations, placement declarations and game materiality; effect authorization remains with the receiving host.
+
+[Source assessment](src/assess-planned-transition.mjs) keeps each provider/patch
+pair distinct, including names containing separators. Its gluing source names
+encode the complete pair as a JSON array; the original provider and patch fields
+remain available separately. Placement is lexical containment under supplied
+declarations, including a declared filesystem root. It does not establish host
+rights or authorize an effect.
