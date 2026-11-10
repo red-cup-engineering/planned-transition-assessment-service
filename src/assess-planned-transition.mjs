@@ -61,9 +61,11 @@ const proofCoefficient = Object.freeze({ witnessed: 1, obstructed: -1, propagati
 function topologicalEvidence(observations) {
   const grouped = new Map();
   for (const observation of observations) {
-    const key = `${observation.provider}\0${observation.patch}`;
+    // Both fields are arbitrary nonempty strings. A delimiter can occur in
+    // either field, so use the complete tuple for grouping and sheaf identity.
+    const key = JSON.stringify([observation.provider, observation.patch]);
     const group = grouped.get(key) ?? {
-      name: `${observation.provider}#${observation.patch}`,
+      name: key,
       provider: observation.provider,
       patch: observation.patch,
       observations: [],
@@ -114,7 +116,8 @@ function placed(effect, declarations) {
   const target = resolve(effect.target);
   return declarations.territories.some((root) => {
     const territory = resolve(root);
-    return target === territory || target.startsWith(`${territory}${sep}`);
+    const prefix = territory.endsWith(sep) ? territory : `${territory}${sep}`;
+    return target === territory || target.startsWith(prefix);
   });
 }
 
