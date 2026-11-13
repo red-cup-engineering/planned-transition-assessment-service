@@ -1,6 +1,6 @@
 import { readFileSync } from "node:fs";
 import { isAbsolute, resolve, sep } from "node:path";
-import { retainedCarrier } from "@red-cup-engineering/computer-content-address-engineering-services-section/semiotic-content-address";
+import { retainedCarrier } from "@red-cup-engineering/computer-content-address-engineering-services-section/semiotic-content-address-system";
 import { designFromActs } from "@red-cup-engineering/playing/structuring/concurrent-game/with-symmetry/ludicizing/design";
 import { materialJudgment } from "@red-cup-engineering/playing/structuring/concurrent-game/with-symmetry/ludicizing/settling/incarnation";
 import * as coordinationCohomology from "@red-cup-engineering/metrologic/articulation/predicating/positing/settling/analysis/coordination-cohomology";
