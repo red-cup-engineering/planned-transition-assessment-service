@@ -70,24 +70,24 @@ function topologicalEvidence(observations) {
       patch: observation.patch,
       observations: [],
     };
-    if (group.observations.some(({ locus: location }) => location === observation.locus)) {
+    if (group.observations.some(({ locus }) => locus === observation.locus)) {
       throw new TypeError("one provider patch may observe each proof locus exactly once");
     }
     group.observations.push(observation);
     grouped.set(key, group);
   }
-  const cells = [...new Set(observations.map(({ locus: location }) => location))];
+  const cells = [...new Set(observations.map(({ locus }) => locus))];
   if (cells.length === 0 || grouped.size === 0) throw new TypeError("proof observations must supply at least one provider patch");
   const patches = [...grouped.values()].map((entry) => ({
-    patch: settlingCohomologyH1.patch(entry.name, entry.observations.map(({ locus: location }) => location)),
+    patch: settlingCohomologyH1.patch(entry.name, entry.observations.map(({ locus }) => locus)),
     section: settlingCohomologyH1.localSection(entry.name, settlingAssociatedSheaf.cochain(
-      entry.observations.map(({ locus: location, status }) => ({ cell: location, coefficient: proofCoefficient[status] })),
+      entry.observations.map(({ locus, status }) => ({ cell: locus, coefficient: proofCoefficient[status] })),
     )),
     source: Object.freeze({
       name: entry.name,
       provider: entry.provider,
       patch: entry.patch,
-      evidence: Object.freeze(entry.observations.map(({ locus: location, evidence }) => ({ locus: location, evidence }))),
+      evidence: Object.freeze(entry.observations.map(({ locus, evidence }) => ({ locus, evidence }))),
     }),
   }));
   const datum = settlingCohomologyH1.cech1(cells, patches.map(({ patch }) => patch), patches.map(({ section }) => section));
@@ -98,13 +98,13 @@ function topologicalEvidence(observations) {
     globalSection: null,
     sources: Object.freeze(patches.map(({ source }) => source)),
   });
-  const record = settlingCohomologyH1.gluingRecord(datum);
+  const receipt = settlingCohomologyH1.gluingReceipt(datum);
   return Object.freeze({
     register: "finite-cech-gluing",
     overlapAgreement: true,
-    globalSection: record.glued,
-    coboundary: record.coboundary,
-    separated: record.separated,
+    globalSection: receipt.glued,
+    coboundary: receipt.coboundary,
+    separated: receipt.separated,
     sources: Object.freeze(patches.map(({ source }) => source)),
   });
 }
@@ -164,15 +164,15 @@ export function assessPlannedTransition(input) {
     }
     return { ...observation };
   });
-  const observations = new Map(requiredProofLoci.map((location) => [location, proofObservations.filter((observation) => observation.locus === location)]));
+  const observations = new Map(requiredProofLoci.map((locus) => [locus, proofObservations.filter((observation) => observation.locus === locus)]));
   const declared = dependencies.some(({ from, to }) => from === input.transition.from && to === input.transition.to);
   const feedbackCycle = hasDirectedCycle(stages, dependencies);
   const nerve = coordinationCohomology.coverNerve(stages.length, dependencies.length, componentCount(stages, dependencies));
-  const coordination = coordinationCohomology.coordinationCostRecord(nerve);
+  const coordination = coordinationCohomology.coordinationCostReceipt(nerve);
   const gluing = topologicalEvidence(proofObservations);
-  const missing = requiredProofLoci.filter((location) => !(observations.get(location) ?? []).some(({ status }) => status === "witnessed"));
-  const propagating = requiredProofLoci.filter((location) => (observations.get(location) ?? []).some(({ status }) => status === "propagating"));
-  const obstructed = requiredProofLoci.filter((location) => (observations.get(location) ?? []).some(({ status }) => status === "obstructed"));
+  const missing = requiredProofLoci.filter((locus) => !(observations.get(locus) ?? []).some(({ status }) => status === "witnessed"));
+  const propagating = requiredProofLoci.filter((locus) => (observations.get(locus) ?? []).some(({ status }) => status === "propagating"));
+  const obstructed = requiredProofLoci.filter((locus) => (observations.get(locus) ?? []).some(({ status }) => status === "obstructed"));
   const misplaced = effects.filter((effect) => !placed(effect, { capabilities, territories })).map(({ id }) => id);
   const obligations = words(input.obligations ?? effects.map(({ id }) => id), "obligations");
   const materiality = gameMateriality(effects, obligations);
