@@ -1,0 +1,39 @@
+{
+  "name": "@red-cup-engineering/planned-transition-assessment-service",
+  "version": "0.1.2",
+  "private": true,
+  "type": "module",
+  "description": "Assess finite planned-transition eligibility under supplied observations, placement declarations and game materiality; effect authorization remains with the receiving host.",
+  "license": "MIT",
+  "bin": {
+    "assess-planned-transition": "./scripts/assess-planned-transition.mjs"
+  },
+  "exports": {
+    ".": "./src/assess-planned-transition.mjs"
+  },
+  "files": [
+    "scripts",
+    "content",
+    "src"
+  ],
+  "scripts": {
+    "check": "node --check src/assess-planned-transition.mjs && node --check scripts/assess-planned-transition.mjs",
+    "verify": "npm run check && npm pack --dry-run"
+  },
+  "dependencies": {
+    "@red-cup-engineering/metrologic": "workspace:*",
+    "@red-cup-engineering/playing": "workspace:*",
+    "@red-cup-engineering/semiotic-content-address-system": "^0.1.5"
+  },
+  "engines": {
+    "node": ">=22"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/red-cup-engineering/planned-transition-assessment-service.git"
+  },
+  "funding": {
+    "type": "individual",
+    "url": "https://github.com/561-group/.github/blob/main/TIPS.md"
+  }
+}

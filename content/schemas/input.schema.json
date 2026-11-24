@@ -1,0 +1,13 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["plan", "transition", "effects", "requiredProofLoci", "observations", "declarations"],
+  "properties": {
+    "plan": {"type": "object", "required": ["stages", "dependencies"]},
+    "transition": {"type": "object", "required": ["from", "to"]},
+    "effects": {"type": "array"},
+    "requiredProofLoci": {"type": "array"},
+    "observations": {"type": "array", "minItems": 1, "items": {"type": "object", "required": ["locus", "status", "provider", "patch", "evidence"]}},
+    "declarations": {"type": "object", "description": "Supplied capability/path declarations for lexical analysis, never a receiving-host grant", "required": ["capabilities", "territories"]}
+  }
+}
